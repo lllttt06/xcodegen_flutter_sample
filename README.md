@@ -1,16 +1,23 @@
-# xcodegen_sample
+# xcodegen_flutter_sample
+This is a sample Flutter repository using [XcodeGen](https://github.com/yonaskolb/XcodeGen).
 
-A new Flutter project.
+## Overview
+A sample Repository for Flutter iOS development using XcodeGen. 
+In order to reduce PR review cost, you can define `ios/Runner.xcodeproj/project.pbxproj` file by `ios/project.yml`.
 
-## Getting Started
+This sample supports for `dev` and `prd` flavors.
+- `flutter run --flavor dev`
+- `flutter run --flavor prd`
 
-This project is a starting point for a Flutter application.
+<img src="https://github.com/lllttt06/xcodegen_flutter_sample/assets/72681064/02fbda68-f5f6-4dd2-ad29-2c9adafeb69a" width=350>
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Requirement
+See [`.tool-versions`](https://github.com/lllttt06/xcodegen_flutter_sample/blob/main/.tool-versions).
+<br>
+You can use these tools by [asdf](https://asdf-vm.com/).
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Usage
+1. `git clone https://github.com/lllttt06/xcodegen_flutter_sample.git`
+2. `asdf install`
+3. `cd ios && xcodegen generate`
