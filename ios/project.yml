@@ -1,0 +1,192 @@
+name: Runner
+
+options:
+  xcodeVersion: '15.4.0'
+  developmentLanguage: ja
+  deploymentTarget:
+    iOS: 16.0
+
+include:
+  - xcodegen/setting/base.yml
+
+configs:
+  Debug: Debug
+  Debug-dev: Debug-dev
+  Debug-prd: Debug-prd
+  Profile: Profile
+  Profile-dev: Profile-dev
+  Profile-prd: Profile-prd
+  Release: Release
+  Release-dev: Release-dev
+  Release-prd: Release-prd
+
+targets:
+  Runner:
+    type: application
+    platform: iOS
+    configFiles:
+      Debug: Flutter/Debug.xcconfig
+      Debug-dev: Flutter/Debug.xcconfig
+      Debug-prd: Flutter/Debug.xcconfig
+      Profile: Flutter/Profile.xcconfig
+      Profile-dev: Flutter/Profile.xcconfig
+      Profile-prd: Flutter/Profile.xcconfig
+      Release: Flutter/Release.xcconfig
+      Release-dev: Flutter/Release.xcconfig
+      Release-prd: Flutter/Release.xcconfig
+
+    sources:
+      # - GoogleService-Info.plist
+      - Flutter/AppFrameworkInfo.plist
+      - Flutter/Generated.xcconfig
+      - Flutter/Debug.xcconfig
+      - Flutter/Profile.xcconfig
+      - Flutter/Release.xcconfig
+      - path: Runner/
+
+    dependencies:
+      - sdk: Pods_Runner.framework
+        embed: false
+        link: true
+
+    preBuildScripts:
+      - name: '[CP] Check Pods Manifest.lock'
+        path: xcodegen/script/check_pods_manifest.sh
+        inputFiles:
+          - ${PODS_PODFILE_DIR_PATH}/Podfile.lock
+          - ${PODS_ROOT}/Manifest.lock
+        outputFiles:
+          - $(DERIVED_FILE_DIR)/Pods-Runner-checkManifestLockResult.txt
+      - name: Run Script
+        path: xcodegen/script/run_script.sh
+
+    # If you use different Firebase Project for each environment, you can use this script.
+    # postCompileScripts:
+    #   - name: Select GoogleService-Info.plist
+    #     path: xcodegen/script/select_google_service_info_plist.sh
+    #     outputFiles:
+    #       - ${SRCROOT}/GoogleService-Info.plist
+
+    postBuildScripts:
+      - name: Thin Binary
+        path: xcodegen/script/thin_binary.sh
+        inputFiles:
+          - ${TARGET_BUILD_DIR}/${INFOPLIST_PATH}
+
+      # If you use Firebase Crashlytics, you can use this script.
+      # - name: '[firebase_crashlytics] Crashlytics Upload Symbols'
+      #   path: xcodegen/script/crashlytics_upload_symbols.sh
+      #   inputFiles:
+      #     - ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}
+      #     - ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}
+      #     - ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist
+      #     - $(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist
+      #     - $(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)
+
+
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: NO
+        CLANG_ENABLE_MODULES: YES
+        CURRENT_PROJECT_VERSION: '$(FLUTTER_BUILD_NUMBER)'
+        # TODO: DEVELOPMENT_TEAM
+        # DEVELOPMENT_TEAM: YOUR_TEAM_ID
+        ENABLE_BITCODE: NO
+        INFOPLIST_FILE: Runner/Info.plist
+        SWIFT_OBJC_BRIDGING_HEADER: 'Runner/Runner-Bridging-Header.h'
+        SWIFT_VERSION: 5.0
+        VERSIONING_SYSTEM: 'apple-generic'
+      configs:
+        Profile-prd:
+          ASSETCATALOG_COMPILER_APPICON_NAME: 'AppIcon-prd'
+          PRODUCT_BUNDLE_IDENTIFIER: com.example.flutterXcodegenSample
+          PRODUCT_NAME: 'PRD'
+
+        Profile-dev:
+          ASSETCATALOG_COMPILER_APPICON_NAME: 'AppIcon-dev'
+          PRODUCT_BUNDLE_IDENTIFIER: com.example.flutterXcodegenSample.dev
+          PRODUCT_NAME: 'DEV'
+
+        Release-prd:
+          ASSETCATALOG_COMPILER_APPICON_NAME: 'AppIcon-prd'
+          PRODUCT_BUNDLE_IDENTIFIER: com.example.flutterXcodegenSample
+          PRODUCT_NAME: 'PRD'
+
+        Release-dev:
+          ASSETCATALOG_COMPILER_APPICON_NAME: 'AppIcon-dev'
+          PRODUCT_BUNDLE_IDENTIFIER: com.example.flutterXcodegenSample.dev
+          PRODUCT_NAME: 'DEV'
+
+        Debug-prd:
+          ASSETCATALOG_COMPILER_APPICON_NAME: 'AppIcon-prd'
+          PRODUCT_BUNDLE_IDENTIFIER: com.example.flutterXcodegenSample
+          PRODUCT_NAME: 'PRD'
+          SWIFT_OPTIMIZATION_LEVEL: '-Onone'
+
+        Debug-dev:
+          ASSETCATALOG_COMPILER_APPICON_NAME: 'AppIcon-dev'
+          PRODUCT_BUNDLE_IDENTIFIER: com.example.flutterXcodegenSample.dev
+          PRODUCT_NAME: 'DEV'
+          SWIFT_OPTIMIZATION_LEVEL: '-Onone'
+
+        Debug:
+          ASSETCATALOG_COMPILER_APPICON_NAME: 'AppIcon-prd'
+          PRODUCT_BUNDLE_IDENTIFIER: com.example.flutterXcodegenSample
+          PRODUCT_NAME: 'NONE'
+          SWIFT_OPTIMIZATION_LEVEL: '-Onone'
+
+        Release:
+          ASSETCATALOG_COMPILER_APPICON_NAME: 'AppIcon-prd'
+          PRODUCT_BUNDLE_IDENTIFIER: com.example.flutterXcodegenSample
+          PRODUCT_NAME: 'NONE'
+
+        Profile:
+          ASSETCATALOG_COMPILER_APPICON_NAME: 'AppIcon-prd'
+          PRODUCT_BUNDLE_IDENTIFIER: com.example.flutterXcodegenSample
+          PRODUCT_NAME: 'NONE'
+
+
+schemes:
+  Runner:
+    build:
+      targets:
+        Runner: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Profile
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+  dev:
+    build:
+      targets:
+        Runner: all
+    run:
+      config: Debug-dev
+    test:
+      config: Debug-dev
+    profile:
+      config: Profile-dev
+    analyze:
+      config: Debug-dev
+    archive:
+      config: Release-dev
+  prd:
+    build:
+      targets:
+        Runner: all
+    run:
+      config: Debug-prd
+    test:
+      config: Debug-prd
+    profile:
+      config: Profile-prd
+    analyze:
+      config: Debug-prd
+    archive:
+      config: Release-prd
+

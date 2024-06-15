@@ -1,0 +1,16 @@
+settings:
+  configs:
+    Debug-dev:
+      APP_NAME: 'DEV'
+      DEBUG_INFORMATION_FORMAT: 'dwarf'
+      ENABLE_TESTABILITY: YES
+      GCC_DYNAMIC_NO_PIC: NO
+      GCC_OPTIMIZATION_LEVEL: 0
+      GCC_PREPROCESSOR_DEFINITIONS: [
+          "DEBUG=1",
+          "$(inherited)",
+      ]
+      IPHONEOS_DEPLOYMENT_TARGET: 16.0
+      MTL_ENABLE_DEBUG_INFO: YES
+      ONLY_ACTIVE_ARCH: YES
+      PRODUCT_NAME: 'DEV'
