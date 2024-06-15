@@ -8,7 +8,7 @@ You can use these tools by [asdf](https://asdf-vm.com/).
 
 ## Overview
 A sample Repository for Flutter iOS development using XcodeGen. 
-In order to reduce PR review cost, you can define `ios/Runner.xcodeproj/project.pbxproj` file by `ios/project.yml`.
+To reduce `project.pbxproj` diff complexity, you can define `ios/Runner.xcodeproj/project.pbxproj` file by `ios/project.yml`.
 
 This sample supports for `dev` and `prd` flavors.
 - `flutter run --flavor dev`
